@@ -1,13 +1,7 @@
-# Python
+venv/
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.env
-.venv
-ENV/
-venv/
-# Jupyter Notebook
-.ipynb_checkpoints/
-# VSCode
-.vscode/
+*.env
+secrets.json
+*.ipynb_checkpoints
+

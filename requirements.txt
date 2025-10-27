@@ -1,3 +1,4 @@
-pandas
 requests
-jupyter
+pandas
+fpdf2
+python-dateutil
