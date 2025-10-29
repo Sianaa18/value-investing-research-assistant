@@ -1,4 +1,5 @@
-requests
+yfinance
+pandas
 reportlab
-google-generativeai
+
 

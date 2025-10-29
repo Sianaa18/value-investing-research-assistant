@@ -1,26 +1,26 @@
-import os
-import requests
-
-FMP_API_KEY = os.getenv("FMP_API_KEY")
-
-def fmp_get(endpoint, symbol):
-    base_url = f"https://financialmodelingprep.com/api/v4/{endpoint}?symbol={symbol}&apikey={FMP_API_KEY}"
-    r = requests.get(base_url)
-    if r.status_code == 403:
-        raise Exception("❌ FMP API: Forbidden. This endpoint is not available on your current FMP plan.")
-    r.raise_for_status()
-    return r.json()
+import yfinance as yf
+import pandas as pd
 
 def get_company_data(symbol):
-    """Collect company data using only free FMP endpoints."""
-    quote = fmp_get("quote", symbol)
-    ratios = fmp_get("ratios", symbol)
-    growth = fmp_get("financial-growth", symbol)
-    enterprise = fmp_get("enterprise-values", symbol)
-    
-    return {
-        "quote": quote,
-        "ratios": ratios,
-        "growth": growth,
-        "enterprise": enterprise,
+    """Fetch stock data using Yahoo Finance (free, no API key needed)."""
+    ticker = yf.Ticker(symbol)
+
+    info = ticker.info
+    financials = ticker.financials
+    balance_sheet = ticker.balance_sheet
+    cashflow = ticker.cashflow
+
+    # Convert all to readable strings for the PDF
+    data = {
+        "company_name": info.get("longName", symbol),
+        "sector": info.get("sector", "N/A"),
+        "industry": info.get("industry", "N/A"),
+        "market_cap": info.get("marketCap", "N/A"),
+        "pe_ratio": info.get("trailingPE", "N/A"),
+        "dividend_yield": info.get("dividendYield", "N/A"),
+        "financials": financials.to_dict(),
+        "balance_sheet": balance_sheet.to_dict(),
+        "cashflow": cashflow.to_dict(),
     }
+
+    return data
