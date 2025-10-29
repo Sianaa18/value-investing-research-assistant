@@ -39,8 +39,14 @@ Company data:
 """
 
 print("🧠 Using Gemini to analyze the company...")
-model = genai.GenerativeModel("gemini-1.5-pro")
+# --- Use a supported Gemini model dynamically ---
+try:
+    model = genai.GenerativeModel("gemini-1.5-flash")
+except Exception:
+    model = genai.GenerativeModel("gemini-pro")
+
 response = model.generate_content(prompt)
+
 
 analysis = response.text if hasattr(response, "text") else str(response)
 
