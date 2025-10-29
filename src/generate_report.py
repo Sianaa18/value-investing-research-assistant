@@ -1,10 +1,16 @@
 import os
+import sys
+
+# ✅ Ensure src package is importable both locally and in GitHub Actions
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import json
 import yfinance as yf
 import google.generativeai as genai
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from src.helper_fmp import get_company_data
+
 
 # --- Fix: convert Timestamp keys to strings ---
 def stringify_keys(obj):
