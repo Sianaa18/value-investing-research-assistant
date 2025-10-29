@@ -2,10 +2,16 @@ name: Generate Value Report
 
 on:
   workflow_dispatch:
+    inputs:
+      ticker:
+        description: "Stock ticker (e.g. AAPL, MSFT, TSLA)"
+        required: true
+        default: "AAPL"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -25,7 +31,7 @@ jobs:
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
-          TICKER: AAPL
+          TICKER: ${{ github.event.inputs.ticker }}
         run: |
           python src/generate_report.py
 
