@@ -1,4 +1,4 @@
 requests
-pandas
-fpdf2
-python-dateutil
+reportlab
+google-generativeai
+
